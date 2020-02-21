@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     dev_data = SentencesDataset(nli_reader.get_examples('valid'),
                                   model=model)
-    dev_dataloader = DataLoader(dev_data, shuffle=True,
+    dev_dataloader = DataLoader(dev_data, shuffle=False,
                                   batch_size=batch_size)
 
     evaluator = LabelAccuracyEvaluator(train_dataloader, softmax_model=model)
