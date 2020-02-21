@@ -1,7 +1,4 @@
-from . import InputExample
-import csv
-import gzip
-import os
+import InputExample
 
 
 class NLIDataReader(object):
@@ -11,23 +8,18 @@ class NLIDataReader(object):
     def __init__(self, dataset_folder):
         self.dataset_folder = dataset_folder
 
-    def get_examples(self, filename, max_examples=0):
+    def get_examples(self, dataset, max_examples=0):
         """
-        data_splits specified which data split to use (train, dev, test).
-        Expects that self.dataset_folder contains the files s1.$data_split.gz,  s2.$data_split.gz,
-        labels.$data_split.gz, e.g., for the train split, s1.train.gz, s2.train.gz, labels.train.gz
         """
-        s1 = gzip.open(os.path.join(self.dataset_folder, 's1.' + filename),
-                       mode="rt", encoding="utf-8").readlines()
-        s2 = gzip.open(os.path.join(self.dataset_folder, 's2.' + filename),
-                       mode="rt", encoding="utf-8").readlines()
-        labels = gzip.open(os.path.join(self.dataset_folder, 'labels.' + filename),
-                           mode="rt", encoding="utf-8").readlines()
 
+        with open(self.dataset_folder + "/fr.raw." + dataset, "r", encoding=="utf-8") as rfile:
+            s1 = [o.split("\t")[0] for o in rfile.readlines()]
+            s2 = [o.split("\t")[1] for o in rfile.readlines()]
+            labels = [o.split("\t")[2] for o in rfile.readlines()]
         examples = []
         id = 0
         for sentence_a, sentence_b, label in zip(s1, s2, labels):
-            guid = "%s-%d" % (filename, id)
+            guid = "%s-%d" % (dataset, id)
             id += 1
             examples.append(InputExample(guid=guid, texts=[sentence_a, sentence_b], label=self.map_label(label)))
 
