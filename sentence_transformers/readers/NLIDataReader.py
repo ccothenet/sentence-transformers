@@ -1,4 +1,4 @@
-import InputExample
+from . import InputExample
 
 
 class NLIDataReader(object):
@@ -8,14 +8,15 @@ class NLIDataReader(object):
     def __init__(self, dataset_folder):
         self.dataset_folder = dataset_folder
 
-    def get_examples(self, dataset, max_examples=0):
+    def get_examples(self, dataset, max_examples=10):
         """
         """
 
-        with open(self.dataset_folder + "/fr.raw." + dataset, "r", encoding=="utf-8") as rfile:
-            s1 = [o.split("\t")[0] for o in rfile.readlines()]
-            s2 = [o.split("\t")[1] for o in rfile.readlines()]
-            labels = [o.split("\t")[2] for o in rfile.readlines()]
+        with open(self.dataset_folder + "/fr.raw." + dataset, "r", encoding="utf-8") as rfile:
+            lines = rfile.readlines()[1:]
+        s1 = [o.split("\t")[0].strip() for o in lines]
+        s2 = [o.split("\t")[1].strip() for o in lines]
+        labels = [o.split("\t")[2].strip() for o in lines]
         examples = []
         id = 0
         for sentence_a, sentence_b, label in zip(s1, s2, labels):
