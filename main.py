@@ -11,9 +11,9 @@ if __name__ == "__main__":
 
     # Read the dataset
 
-    model_name = 'roberta-large'
+    model_name = 'camembert-base'
     batch_size = 16
-    nli_reader = NLIDataReader('./AllNLI')
+    nli_reader = NLIDataReader('../processed')
     train_num_labels = nli_reader.get_num_labels()
     model_save_path = './training_nli_' + model_name + '-' + datetime.now().strftime(
         "%Y-%m-%d_%H-%M-%S")
@@ -36,11 +36,12 @@ if __name__ == "__main__":
                                     sentence_embedding_dimension=model.get_sentence_embedding_dimension(),
                                     num_labels=train_num_labels)
 
-    dev_data = SentencesDataset(nli_reader.get_examples('dev', max_examples=20),
+    dev_data = SentencesDataset(nli_reader.get_examples('valid', max_examples=20),
                                   model=model)
     dev_dataloader = DataLoader(dev_data, shuffle=True,
                                   batch_size=batch_size)
-    evaluator = LabelAccuracyEvaluator(train_dataloader)
+
+    evaluator = LabelAccuracyEvaluator(train_dataloader, softmax_model=model)
 
     warmup_steps = 4
 
