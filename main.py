@@ -28,7 +28,7 @@ if __name__ == "__main__":
                                    pooling_mode_max_tokens=False)
     model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
 
-    train_data = SentencesDataset(nli_reader.get_examples('train', max_examples=20),
+    train_data = SentencesDataset(nli_reader.get_examples('train'),
                                   model=model)
     train_dataloader = DataLoader(train_data, shuffle=True,
                                   batch_size=batch_size)
@@ -36,7 +36,7 @@ if __name__ == "__main__":
                                     sentence_embedding_dimension=model.get_sentence_embedding_dimension(),
                                     num_labels=train_num_labels)
 
-    dev_data = SentencesDataset(nli_reader.get_examples('valid', max_examples=20),
+    dev_data = SentencesDataset(nli_reader.get_examples('valid'),
                                   model=model)
     dev_dataloader = DataLoader(dev_data, shuffle=True,
                                   batch_size=batch_size)

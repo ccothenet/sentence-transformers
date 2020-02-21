@@ -8,7 +8,7 @@ class NLIDataReader(object):
     def __init__(self, dataset_folder):
         self.dataset_folder = dataset_folder
 
-    def get_examples(self, dataset, max_examples=10):
+    def get_examples(self, dataset, max_examples=0):
         """
         """
 
