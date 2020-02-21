@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     # "camembert-base" is the name of Camembert Model from Hugging Face
     word_embedding_model = models.CamemBERT("camembert-base")
-    pooling_model = models.Pooling(768,
+    pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension(),
                                    pooling_mode_mean_tokens=True,
                                    pooling_mode_cls_token=False,
                                    pooling_mode_max_tokens=False)
