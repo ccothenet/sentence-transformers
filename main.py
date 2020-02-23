@@ -41,9 +41,9 @@ if __name__ == "__main__":
     dev_dataloader = DataLoader(dev_data, shuffle=False,
                                   batch_size=batch_size)
 
-    evaluator = LabelAccuracyEvaluator(train_dataloader, softmax_model=train_loss)
+    evaluator = LabelAccuracyEvaluator(dev_dataloader, softmax_model=train_loss)
 
-    warmup_steps = 50
+    warmup_steps = 1000
 
     model.fit(train_objectives=[(train_dataloader, train_loss)],
               evaluator=evaluator,
