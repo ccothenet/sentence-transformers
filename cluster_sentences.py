@@ -12,7 +12,7 @@ if __name__ == "__main__":
     # Perform kmean clustering
     num_clusters = 5
     clustering_model = KMeans(n_clusters=num_clusters)
-    clustering_model.fit(corpus_embeddings)
+    clustering_model.fit(corpus_embedding)
     cluster_assignment = clustering_model.labels_
 
     clustered_sentences = [[] for i in range(num_clusters)]
