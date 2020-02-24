@@ -12,8 +12,8 @@ if __name__ == "__main__":
     # Read the dataset
 
     model_name = 'camembert-base'
-    batch_size = 16
-    nli_reader = NLIDataReader('../processed')
+    batch_size = 8
+    nli_reader = NLIDataReader('./processed')
     train_num_labels = nli_reader.get_num_labels()
     model_save_path = './training_nli_' + model_name + '-' + datetime.now().strftime(
         "%Y-%m-%d_%H-%M-%S")
@@ -41,9 +41,9 @@ if __name__ == "__main__":
     dev_dataloader = DataLoader(dev_data, shuffle=False,
                                   batch_size=batch_size)
 
-    evaluator = LabelAccuracyEvaluator(train_dataloader, softmax_model=model)
+    evaluator = LabelAccuracyEvaluator(dev_dataloader, softmax_model=train_loss)
 
-    warmup_steps = 4
+    warmup_steps = 1000
 
     model.fit(train_objectives=[(train_dataloader, train_loss)],
               evaluator=evaluator,
