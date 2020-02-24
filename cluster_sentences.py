@@ -19,6 +19,7 @@ if __name__ == "__main__":
 
     # Perform kmean clustering
     inertia_list = []
+    K = range(1, 20)
     for k in K:
         print("{} clusters ---------------------".format(k))
         num_clusters = k
