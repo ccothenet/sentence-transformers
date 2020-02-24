@@ -23,7 +23,8 @@ if __name__ == "__main__":
 
     # Find the closest 5 sentences of the corpus for each query sentence based on cosine similarity
     closest_n = 5
-    for query, query_embedding in zip(queries, query_embeddings):
+    #for query, query_embedding in zip(queries, query_embeddings):
+    for query, query_embedding in zip(sentences, corpus_embeddings):
         distances = \
         scipy.spatial.distance.cdist([query_embedding], corpus_embeddings,
                                      "cosine")[0]
