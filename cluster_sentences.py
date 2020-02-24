@@ -1,5 +1,6 @@
 from sentence_transformers import SentenceTransformer
 from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
 if __name__ == "__main__":
     embedder = SentenceTransformer('bert-base-nli-mean-tokens')
 
@@ -17,16 +18,27 @@ if __name__ == "__main__":
     corpus_embedding = embedder.encode(sentences)
 
     # Perform kmean clustering
-    num_clusters = 5
-    clustering_model = KMeans(n_clusters=num_clusters)
-    clustering_model.fit(corpus_embedding)
-    cluster_assignment = clustering_model.labels_
+    inertia_list = []
+    for k in K:
+        print("{} clusters ---------------------".format(k))
+        num_clusters = k
+        clustering_model = KMeans(n_clusters=num_clusters)
+        clustering_model.fit(corpus_embedding)
+        cluster_assignment = clustering_model.labels_
+        inertia_list.append(clustering_model.inertia_)
 
-    clustered_sentences = [[] for i in range(num_clusters)]
-    for sentence_id, cluster_id in enumerate(cluster_assignment):
-        clustered_sentences[cluster_id].append(sentences[sentence_id])
+        clustered_sentences = [[] for i in range(num_clusters)]
+        for sentence_id, cluster_id in enumerate(cluster_assignment):
+            clustered_sentences[cluster_id].append(sentences[sentence_id])
 
-    for i, cluster in enumerate(clustered_sentences):
-        print("Cluster ", i + 1)
-        print(cluster)
-        print("")
+        for i, cluster in enumerate(clustered_sentences):
+            print("Cluster ", i + 1)
+            print(cluster)
+            print("")
+
+    plt.plot(K, inertia_list, "bx-")
+    plt.xlabel("k")
+    plt.ylabel("Sum of squared distances")
+    plt.title("Elbow method for optimal k")
+    plt.show()
+    plt.savefig("./elbow_cluster.png")
