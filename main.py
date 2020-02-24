@@ -1,8 +1,8 @@
 from torch.utils.data import DataLoader
 import math
 from sentence_transformers import models, losses
-from sentence_transformers import SentencesDataset, LoggingHandler, SentenceTransformer
-from sentence_transformers.evaluation import EmbeddingSimilarityEvaluator, LabelAccuracyEvaluator
+from sentence_transformers import SentencesDataset, SentenceTransformer
+from sentence_transformers.evaluation import LabelAccuracyEvaluator
 from sentence_transformers.readers import *
 import logging
 from datetime import datetime
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     train_num_labels = nli_reader.get_num_labels()
     model_save_path = './training_nli_' + model_name + '-' + datetime.now().strftime(
         "%Y-%m-%d_%H-%M-%S")
-    num_epochs= 10
+    num_epochs = 10
 
 
     # "camembert-base" is the name of Camembert Model from Hugging Face
@@ -54,11 +54,3 @@ if __name__ == "__main__":
               )
 
     model.save("model.pt")
-
-    # traubèdata = DataLoader("")
-
-    # TODO : Train on XNLI French dataset
-
-    # TODO : Déplacer Dossier git à la place de ce dossier Sentence_BERT
-
-    # TODO : https://github.com/UKPLab/sentence-transformers  Finetuner CamemBERT sur ce dataset
