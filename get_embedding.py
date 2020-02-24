@@ -1,5 +1,6 @@
 import os
 from sentence_transformers import SentenceTransformer
+import scipy
 
 if __name__ == "__main__":
     list_files = os.listdir()
@@ -12,7 +13,7 @@ if __name__ == "__main__":
     """
     sentences = text.split(".")
     embedder = SentenceTransformer(model_file)
-    corpus_embeddings = embedder.encode(corpus)
+    corpus_embeddings = embedder.encode(sentences)
 
     queries = ['Un homme a peur de perdre son emploi.',
                "Le bilan carbone de la station est très bon en 2019.",
@@ -35,4 +36,4 @@ if __name__ == "__main__":
         print("\nTop 5 most similar sentences in corpus:")
 
         for idx, distance in results[0:closest_n]:
-            print(corpus[idx].strip(), "(Score: %.4f)" % (1 - distance))
+            print(sentences[idx].strip(), "(Score: %.4f)" % (1 - distance))
